@@ -1,0 +1,18 @@
+{
+  "name": "geoffwilliams-logrotate",
+  "version": "0.1.0",
+  "author": "geoffwilliams",
+  "summary": "Manage logrotate with puppet using in-place editing",
+  "license": "Apache-2.0",
+  "source": "https://github.com/GeoffWilliams/puppet-logrotate.git",
+  "project_page": null,
+  "issues_url": "https://api.github.com/repos/GeoffWilliams/puppet-logrotate/issues{/number}",
+  "dependencies": [
+    {
+      "name": "puppetlabs-stdlib",
+      "version_requirement": ">= 1.0.0"
+    }
+  ],
+  "data_provider": null,
+  "project_url": "https://github.com/GeoffWilliams/puppet-logrotate.git"
+}
