@@ -1,48 +1,38 @@
-# Class: logrotate
-# ===========================
+# Logrotate
 #
-# Full description of class logrotate here.
+# Install and configure log rotation on Linux. Edits to `/etc/logrotate.conf` are performed as edits to avoid clobbering
+# vendor defaults
 #
-# Parameters
-# ----------
+# @example Hiera default settings
+#   logrotate::settings:
+#     weekly:
+#     rotate: 4
+#     create:
+#     dateext:
+#     compress:
 #
-# Document parameters here.
-#
-# * `sample parameter`
-# Explanation of what this parameter affects and what it defaults to.
-# e.g. "Specify one or more upstream ntp servers as an array."
-#
-# Variables
-# ----------
-#
-# Here you should define a list of variables that this module would require.
-#
-# * `sample variable`
-#  Explanation of how this variable affects the function of this class and if
-#  it has a default. e.g. "The parameter enc_ntp_servers must be set by the
-#  External Node Classifier as a comma separated list of hostnames." (Note,
-#  global variables should be avoided in favor of class parameters as
-#  of Puppet 2.6.)
-#
-# Examples
-# --------
-#
-# @example
-#    class { 'logrotate':
-#      servers => [ 'pool.ntp.org', 'ntp.local.company.com' ],
-#    }
-#
-# Authors
-# -------
-#
-# Author Name <author@domain.com>
-#
-# Copyright
-# ---------
-#
-# Copyright 2018 Your name here, unless otherwise noted.
-#
-class logrotate {
+class logrotate(
+  String                    $package    = "logrotate",
+  Hash[String,Any]          $settings   = {},
+  Hash[String,Hash[String,String]] $rules      = {},
+) {
 
+  package { $package:
+    ensure => present,
+  }
+
+
+
+  $settings.each |$key, $opts| {
+    $value = pick_default($opts, "")
+
+    fm_replace { "/etc/logrotate.conf:${key}":
+      ensure            => present,
+      path              => "/etc/logrotate.conf",
+      data              => "${key} ${value}",
+      match             => logrotate::find_match($key),
+      insert_if_missing => true,
+    }
+  }
 
 }
