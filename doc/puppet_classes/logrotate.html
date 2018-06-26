@@ -77,9 +77,13 @@
     
 <p>Logrotate</p>
 
-<p>Install and configure log rotation on Linux. Edits to
-<code>/etc/logrotate.conf</code> are performed as edits to avoid clobbering
-vendor defaults</p>
+<p>Install and configure log rotation on Linux. Management of
+<code>/etc/logrotate.conf</code> is performed as edits to avoid clobbering
+vendor defaults.</p>
+
+<p>The module takes the position that the files laid down by the vendor are
+correct and only modifies them the minimal amount needed to make the system
+work - users/admins are trusted not alter files away from the defaults.</p>
 
   </div>
 </div>
@@ -87,6 +91,13 @@ vendor defaults</p>
   
   <div class="examples">
     <p class="tag_title">Examples:</p>
+    
+      
+        <p class="example_title"><div class='inline'>
+<p>Install logrotate with vendor configuration</p>
+</div></p>
+      
+      <pre class="example code"><code><span class='id identifier rubyid_include'>include</span> <span class='id identifier rubyid_logrotate'>logrotate</span></code></pre>
     
       
         <p class="example_title"><div class='inline'>
@@ -99,6 +110,17 @@ vendor defaults</p>
   create:
   dateext:
   compress:</code></pre>
+    
+      
+        <p class="example_title"><div class='inline'>
+<p>Hiera logrotate entries (custom rules)</p>
+</div></p>
+      
+      <pre class="example code"><code>lograte::entries:
+  /var/log/messages:
+  /var/log/myapp:
+    settings:
+      rotate: 50</code></pre>
     
   </div>
 <p class="tag_title">Parameters:</p>
@@ -115,6 +137,11 @@ vendor defaults</p>
         <em class="default">(defaults to: <tt>&quot;logrotate&quot;</tt>)</em>
       
       
+        &mdash;
+        <div class='inline'>
+<p>Name of the package providing <code>logrotate</code></p>
+</div>
+      
     </li>
   
     <li>
@@ -128,18 +155,28 @@ vendor defaults</p>
         <em class="default">(defaults to: <tt>{}</tt>)</em>
       
       
+        &mdash;
+        <div class='inline'>
+<p>Hash of default settings for <code>logrotate.conf</code> (see examples)</p>
+</div>
+      
     </li>
   
     <li>
       
-        <span class='name'>rules</span>
+        <span class='name'>entries</span>
       
       
-        <span class='type'>(<tt>Hash[String,Hash[String,String]]</tt>)</span>
+        <span class='type'>(<tt>Hash[String,Hash[String,Any]]</tt>)</span>
       
       
         <em class="default">(defaults to: <tt>{}</tt>)</em>
       
+      
+        &mdash;
+        <div class='inline'>
+<p>Hash of logrotate entries to create (see examples)</p>
+</div>
       
     </li>
   
@@ -153,22 +190,6 @@ vendor defaults</p>
         <pre class="lines">
 
 
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
 30
 31
 32
@@ -177,22 +198,39 @@ vendor defaults</p>
 35
 36
 37
-38</pre>
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57</pre>
       </td>
       <td>
-        <pre class="code"><span class="info file"># File 'manifests/init.pp', line 14</span>
+        <pre class="code"><span class="info file"># File 'manifests/init.pp', line 30</span>
 
 class logrotate(
-  String                    $package    = &quot;logrotate&quot;,
-  Hash[String,Any]          $settings   = {},
-  Hash[String,Hash[String,String]] $rules      = {},
+  String                        $package    = &quot;logrotate&quot;,
+  Hash[String,Any]              $settings   = {},
+  Hash[String,Hash[String,Any]] $entries    = {},
 ) {
 
   package { $package:
     ensure =&gt; present,
   }
-
-
 
   $settings.each |$key, $opts| {
     $value = pick_default($opts, &quot;&quot;)
@@ -206,6 +244,11 @@ class logrotate(
     }
   }
 
+  $entries.each |$key,$opts| {
+    logrotate::entry { $key:
+      * =&gt; $opts,
+    }
+  }
 }</pre>
       </td>
     </tr>

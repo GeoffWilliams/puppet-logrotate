@@ -36,3 +36,15 @@
 @test "dateext set" {
     grep ^dateext /etc/logrotate.conf
 }
+
+@test "entry created for /var/log/messages" {
+    ls /etc/logrotate.d/messages
+}
+
+@test "entry created for /var/log/myapp" {
+    ls /etc/logrotate.d/myapp
+}
+
+@test "logging configured correctly for /var/log/myapp" {
+    grep "rotate 50" /etc/logrotate.d/myapp
+}

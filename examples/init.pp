@@ -7,4 +7,12 @@ class { "logrotate":
     "create"     => undef,
     "dateext"    => undef,
   },
+  entries        => {
+      "/var/log/messages" => {},
+      "/var/log/myapp"    => {
+          "settings" => {
+              "rotate" => 50,
+          }
+      }
+  }
 }
