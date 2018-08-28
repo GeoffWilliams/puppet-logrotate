@@ -1,6 +1,6 @@
-# Logrotate
+# @summary Install and configure log rotation on Linux
 #
-# Install and configure log rotation on Linux. Management of `/etc/logrotate.conf` is performed as edits to avoid
+# Management of `/etc/logrotate.conf` is performed as edits to avoid
 # clobbering vendor defaults.
 #
 # The module takes the position that the files laid down by the vendor are correct and only modifies them the

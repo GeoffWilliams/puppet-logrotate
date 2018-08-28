@@ -1,6 +1,4 @@
-# Logrotate::Entry
-#
-# Create a log rotate entry under `/etc/logrotate.d`.
+# @summary Create a log rotate entry under `/etc/logrotate.d`.
 #
 # Config file to write is guessed by taking the basename of `log_file` unless `config_file`
 # is passed explicitly (eg `/var/log/yum.log` would create a file at

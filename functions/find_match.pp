@@ -1,4 +1,4 @@
-# Logrotate::Find_match()
+# @summary convert the passed string to a regex to search with
 #
 # Figure out the regexp we need to use with `fm_replace` in order to update the passed in setting
 #
@@ -7,8 +7,7 @@
 #
 # @param setting The setting to match (eg "weekly")
 #
-# https://tickets.puppetlabs.com/browse/PDOC-260
-# return String representing the regex to match the main config file for
+# @return [String] representing the regex to match the main config file for
 function logrotate::find_match($setting) >> String {
 
   case $setting {

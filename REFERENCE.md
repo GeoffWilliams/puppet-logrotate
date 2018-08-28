@@ -5,23 +5,21 @@
 
 **Classes**
 
-* [`logrotate`](#logrotate): Logrotate  Install and configure log rotation on Linux. Management of `/etc/logrotate.conf` is performed as edits to avoid clobbering vendor 
+* [`logrotate`](#logrotate): Install and configure log rotation on Linux
 
 **Defined types**
 
-* [`logrotate::entry`](#logrotateentry): Logrotate::Entry  Create a log rotate entry under `/etc/logrotate.d`.  Config file to write is guessed by taking the basename of `log_file` u
+* [`logrotate::entry`](#logrotateentry): Create a log rotate entry under `/etc/logrotate.d`.
 
 **Functions**
 
-* [`logrotate::find_match`](#logrotatefind_match): Logrotate::Find_match()  Figure out the regexp we need to use with `fm_replace` in order to update the passed in setting  https://tickets.pup
+* [`logrotate::find_match`](#logrotatefind_match): convert the passed string to a regex to search with
 
 ## Classes
 
 ### logrotate
 
-Logrotate
-
-Install and configure log rotation on Linux. Management of `/etc/logrotate.conf` is performed as edits to avoid
+Management of `/etc/logrotate.conf` is performed as edits to avoid
 clobbering vendor defaults.
 
 The module takes the position that the files laid down by the vendor are correct and only modifies them the
@@ -87,10 +85,6 @@ Default value: {}
 ## Defined types
 
 ### logrotate::entry
-
-Logrotate::Entry
-
-Create a log rotate entry under `/etc/logrotate.d`.
 
 Config file to write is guessed by taking the basename of `log_file` unless `config_file`
 is passed explicitly (eg `/var/log/yum.log` would create a file at
@@ -184,23 +178,13 @@ Default value: "# managed by puppet, do not edit!"
 
 Type: Puppet Language
 
-Logrotate::Find_match()
-
 Figure out the regexp we need to use with `fm_replace` in order to update the passed in setting
-
-https://tickets.puppetlabs.com/browse/PDOC-260
-return String representing the regex to match the main config file for
 
 #### `logrotate::find_match(Any $setting)`
 
-Logrotate::Find_match()
-
 Figure out the regexp we need to use with `fm_replace` in order to update the passed in setting
 
-https://tickets.puppetlabs.com/browse/PDOC-260
-return String representing the regex to match the main config file for
-
-Returns: `String`
+Returns: `String` representing the regex to match the main config file for
 
 ##### `setting`
 
